@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Demo blog{% if page > 1 %} | page {{page}}{% endif %}
+
+        </title>
+    </head>
+    <body>
+        {% for post in posts %}
+            <div class="postPreview">
+                {{post.publishedAt|date('Y-m-d H:i:s')}}
+                <h3>{{post.titel}}</h3>
+                <h4>{{post.subtitel}}</h4>
+                <p>{{post.previewText}}</p>
+                <a href="{{path('view_post', {'id': post.id})}}">Lees meer -></a>
+                <br></br><br></br>
+            </div>
+        {% endfor %}
+        {% for i in 1..totalPages %}
+            {% if i == page %}
+                <a class="activePage">{{i}}</a>
+            {% else %}
+                <a class="inactivePage" href="{{path('home_page', {'page': i})}}">{{i}}</a>
+            {% endif%}
+        {% endfor %}
+    </body>
+</html>

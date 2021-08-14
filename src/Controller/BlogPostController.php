@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\BlogPosts;
+use App\Entity\BlogPost;
 use Symfony\Bundle\FrameworkBundle\Controller\controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,20 +11,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BlogPostController extends AbstractController {
 
     /**
-    * @Route("/", name="home_page")
+    * @Route("/{page}", defaults={"page"=1}, name="home_page")
     */
-    public function blogOverview() {
-        return new Response('main page here');
+    public function blogOverview(int $page) {
+        $repository = $this->getDoctrine()
+                           ->getRepository(BlogPost::class);
+        $posts      = $repository->postsByPage($page, 5);
+        $postCount  = $repository->getPostCount();
+        $totalPages = ceil($postCount / 5);
+
+        return $this->render('home_page.html.twig', [
+            'page'       => $page,
+            'posts'      => $posts,
+            'totalPages' => $totalPages,
+        ]);
     }
 
     /**
-    * @Route("/{id}", name="view_post")
+    * @Route("/view/{id}", name="view_post")
     */
-    public function viewPost(int $id) {
-        $post = $this->getDoctrine()
-                     ->getRepository(BlogPosts::class)
-                     ->find($id);
-
-        return new Response(var_dump($post));
+    public function viewPost(BlogPost $post) {
+        return $this->render('view_post.html.twig', [
+            'post' => $post,
+        ]);
     }
 }
