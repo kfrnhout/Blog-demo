@@ -12,6 +12,9 @@
             <h4>{{post.subtitel}}</h4>
             <p>{{post.previewText}}</p>
             <p>{{post.mainText}}</p>
+            {% if post.image != null %}
+                <div><img src="../images/{{post.image}}"></div>
+            {% endif %}
         </div>
     </body>
 </html>

@@ -33,7 +33,7 @@ class BlogPost
     private $published_at;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $preview_text;
 
@@ -46,6 +46,11 @@ class BlogPost
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archived = 0;
 
     public function getId(): ?int
     {
@@ -120,6 +125,18 @@ class BlogPost
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getArchived (): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
 
         return $this;
     }

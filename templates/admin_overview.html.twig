@@ -13,7 +13,7 @@
                   <th>titel</th>
                   <th>published at</th>
                   <th>edit</th>
-                  <th>delete</th>
+                  <th>public</th>
             </tr>
             {% for post in posts %}
                 <tr>
@@ -21,7 +21,7 @@
                     <td>{{post.titel}}</td>
                     <td>{{post.publishedAt|date('Y-m-d H:i:s')}}</td>
                     <td><a href="{{path('create_post', {'postId': post.id, 'state': 'edit'})}}">edit</a></td>
-                    <td>delete</td>
+                    <td><a href="{{path('toggle_visibility', {'post': post.id})}}">{% if post.archived %}No{% else %}Yes{% endif %}</a></td>
                 </tr>
             {% endfor %}
         </table>

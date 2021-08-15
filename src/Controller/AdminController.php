@@ -25,8 +25,8 @@ class AdminController extends AbstractController {
     public function adminOverview(int $page) {
         $repository = $this->getDoctrine()
                            ->getRepository(BlogPost::class);
-        $posts      = $repository->postsByPage($page, 20);
-        $postCount  = $repository->getPostCount();
+        $posts      = $repository->postsByPage($page, 20, true);
+        $postCount  = $repository->getPostCount(true);
         $totalPages = ceil($postCount / 20);
 
         return $this->render('admin_overview.html.twig', [
@@ -85,5 +85,18 @@ class AdminController extends AbstractController {
             'state' => $state,
             'form'  => $form->createView(),
         ]);
+    }
+
+    /**
+    * @Route("/admin/toggle/{post}", name="toggle_visibility")
+    */
+    public function toggleVisibility(BlogPost $post){
+        $post->setArchived(!$post->getArchived());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($post);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_overview');
     }
 }

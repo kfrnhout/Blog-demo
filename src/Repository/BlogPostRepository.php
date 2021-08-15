@@ -22,7 +22,7 @@ class BlogPostRepository extends ServiceEntityRepository
     /**
     * @return BlogPost[]
     */
-    public function postsByPage(int $page, int $pageLimit) {
+    public function postsByPage(int $page, int $pageLimit, bool $showArchived = false) {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
 
@@ -32,18 +32,26 @@ class BlogPostRepository extends ServiceEntityRepository
                      ->setMaxResults($pageLimit)
                      ->setFirstResult(($page - 1) * $pageLimit);
 
+        if (!$showArchived) {
+            $queryBuilder->where('bp.archived = 0');
+        }
+
         return $queryBuilder->getQuery()->getResult();
     }
 
     /**
     * @return int
     */
-    public function getPostCount() {
+    public function getPostCount(bool $showArchived = false) {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
 
         $queryBuilder->select('count(bp.id)')
                      ->from('App\Entity\BlogPost', 'bp');
+
+        if (!$showArchived) {
+            $queryBuilder->where('bp.archived = 0');
+        }
 
         return intval($queryBuilder->getQuery()->getSingleScalarResult());
     }
