@@ -2,11 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Demo blog | {{post.titel}}
-
-        </title>
+        <title>Demo blog | {{post.titel}}</title>
     </head>
     <body>
+        {% include("header.html.twig") %}
         <div>
             {{post.publishedAt|date('Y-m-d H:i:s')}}
             <h3>{{post.titel}}</h3>

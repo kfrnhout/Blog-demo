@@ -28,7 +28,7 @@ class BlogPostController extends AbstractController {
     }
 
     /**
-    * @Route("/view/{id}", name="view_post")
+    * @Route("/view/{post}", name="view_post")
     */
     public function viewPost(BlogPost $post) {
         return $this->render('view_post.html.twig', [
