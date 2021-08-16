@@ -26,6 +26,7 @@ class BlogPostController extends AbstractController {
         $posts      = $repository->postsByPage($page, 5);
         $postCount  = $repository->getPostCount();
         $totalPages = ceil($postCount / 5);
+        if($totalPages == 0) {$totalPages++;}
 
         return $this->render('home_page.html.twig', [
             'page'       => $page,
@@ -62,6 +63,7 @@ class BlogPostController extends AbstractController {
         $comments     = $repository->commentsByPageAndPost($page, 5, $post->getId());
         $commentCount = $repository->getCommentCountByPost($post->getId());
         $totalPages   = ceil($commentCount / 5);
+        if($totalPages == 0) {$totalPages++;}
 
         return $this->render('view_post.html.twig', [
             'post'       => $post,

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Demo blog | admin | create post</title>
-    </head>
-    <body>
-        {% include("header.html.twig") %}
-        {{ form(form) }}
-    </body>
-</html>
+{% extends "base.html.twig" %}
+
+{% block title %}Demo blog | admin | create post{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    {{ form(form) }}
+{% endblock %}

@@ -1,37 +1,35 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Demo blog | admin{% if page > 1 %} | page {{page}}{% endif %}</title>
-    </head>
-    <body>
-        {% include("header.html.twig") %}
-        <p><a href="{{path('create_post')}}">Nieuwe post</a></p>
-        <table>
+{% extends "base.html.twig" %}
+
+{% block title %}Demo blog | admin{% if page > 1 %} | page {{page}}{% endif %}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <p><a href="{{path('create_post')}}">Nieuwe post</a></p>
+    <table>
+        <tr>
+              <th>id</th>
+              <th>titel</th>
+              <th>published at</th>
+              <th>edit</th>
+              <th>public</th>
+        </tr>
+        {% for post in posts %}
             <tr>
-                  <th>id</th>
-                  <th>titel</th>
-                  <th>published at</th>
-                  <th>edit</th>
-                  <th>public</th>
+                <td>{{post.id}}</td>
+                <td>{{post.titel}}</td>
+                <td>{{post.publishedAt|date('Y-m-d H:i:s')}}</td>
+                <td><a href="{{path('create_post', {'postId': post.id, 'state': 'edit'})}}">edit</a></td>
+                <td><a href="{{path('toggle_visibility', {'post': post.id})}}">{% if post.archived %}No{% else %}Yes{% endif %}</a></td>
             </tr>
-            {% for post in posts %}
-                <tr>
-                    <td>{{post.id}}</td>
-                    <td>{{post.titel}}</td>
-                    <td>{{post.publishedAt|date('Y-m-d H:i:s')}}</td>
-                    <td><a href="{{path('create_post', {'postId': post.id, 'state': 'edit'})}}">edit</a></td>
-                    <td><a href="{{path('toggle_visibility', {'post': post.id})}}">{% if post.archived %}No{% else %}Yes{% endif %}</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-        <br></br><br></br>
-        {% for i in 1..totalPages %}
-            {% if i == page %}
-                <a class="activePage">{{i}}</a>
-            {% else %}
-                <a class="inactivePage" href="{{path('admin_overview', {'page': i})}}">{{i}}</a>
-            {% endif%}
         {% endfor %}
-    </body>
-</html>
+    </table>
+    <br></br><br></br>
+    {% for i in 1..totalPages %}
+        {% if i == page %}
+            <a><button type="button" class="btn btn-primary">{{i}}</button></a>
+        {% else %}
+            <a href="{{path('admin_overview', {'page': i})}}">
+<button type="button" class="btn btn-info">{{i}}</button></a>
+        {% endif%}
+    {% endfor %}
+{% endblock %}

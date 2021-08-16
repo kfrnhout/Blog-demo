@@ -29,6 +29,7 @@ class AdminController extends AbstractController {
         $posts      = $repository->postsByPage($page, 20, true);
         $postCount  = $repository->getPostCount(true);
         $totalPages = ceil($postCount / 20);
+        if($totalPages == 0) {$totalPages++;}
 
         return $this->render('admin_overview.html.twig', [
             'page'       => $page,
