@@ -9,11 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Monolog\DateTimeImmutable;
 
@@ -49,10 +50,10 @@ class AdminController extends AbstractController {
 
         $form = $this->createFormBuilder($post)
                      ->add('id', IntegerType::class, ['disabled' => true])
-                     ->add('titel', TextType::class)
-                     ->add('subtitel', TextType::class)
-                     ->add('previewText', TextareaType::class)
-                     ->add('mainText', TextareaType::class)
+                     ->add('titel', TextType::class, ['required' => true])
+                     ->add('subtitel', TextType::class, ['required' => true])
+                     ->add('previewText', CKEditorType::class, ['required' => true, 'constraints'=>[new NotBlank()]])
+                     ->add('mainText', CKEditorType::class, ['required' => true, 'constraints'=>[new NotBlank()]])
                      ->add('image', FileType::class, ['required' => false, 'mapped' => false, 'constraints' => new Image()])
                      ->add('Opslaan', SubmitType::class)
                      ->getForm();

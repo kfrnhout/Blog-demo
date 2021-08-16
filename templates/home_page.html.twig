@@ -14,7 +14,7 @@
                 <p>{{post.previewText}}</p>
                 <a href="{{path('view_post', {'post': post.id})}}">Lees meer -></a>
                 {% if post.image != null %}
-                    <div><img src="images/{{post.image}}"></div>
+                    <div><img src="/images/{{post.image}}"></div>
                 {% endif %}
                 <br></br><br></br>
             </div>

@@ -13,8 +13,24 @@
             <p>{{post.previewText}}</p>
             <p>{{post.mainText}}</p>
             {% if post.image != null %}
-                <div><img src="../images/{{post.image}}"></div>
+                <div><img src="/images/{{post.image}}"></div>
             {% endif %}
         </div>
+        {{ form(form) }}
+        {% for comment in comments %}
+            <div class="comment">
+                <br></br>
+                {{comment.username}} at {{comment.timestamp|date('Y-m-d H:i:s')}}
+                <p>{{comment.text|raw}}</p>
+            </div>
+        {% endfor %}
+        <br></br>
+        {% for i in 1..totalPages %}
+            {% if i == page %}
+                <a class="activePage">{{i}}</a>
+            {% else %}
+                <a class="inactivePage" href="{{path('view_post', {'post': post.id,'page': i})}}">{{i}}</a>
+            {% endif%}
+        {% endfor %}
     </body>
 </html>
