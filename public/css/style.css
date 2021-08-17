@@ -1,0 +1,44 @@
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    margin: 20px;
+}
+
+.grid td,
+.grid th {
+    border: 1px solid black;
+    padding: 0px 5px;
+}
+
+.post {
+    display: inline-block;
+    width: 100%;
+}
+
+.postText {
+    float: left;
+    width: 50%;
+}
+
+.postImage {
+    float: right;
+    width: 50%;
+}
+
+.postImage img{
+    max-width: 100%;
+    max-height: 200px;
+}
+
+.postImageFull img {
+    max-width: 100%;
+}
+
+.devider {
+    width: 100%;
+    margin: 5px;
+    background: orange;
+    height: 5px;
+}

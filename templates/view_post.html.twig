@@ -4,31 +4,60 @@
 
 {% block body %}
     {{ parent() }}
-    <div>
-        {{post.publishedAt|date('Y-m-d H:i:s')}}
-        <h3>{{post.titel}}</h3>
-        <h4>{{post.subtitel}}</h4>
-        <p>{{post.previewText}}</p>
-        <p>{{post.mainText}}</p>
+    <div class="post">
+        <div class="postText">
+            {{post.publishedAt|date('Y-m-d H:i:s')}}
+            <h3>{{post.titel}}</h3>
+            <h4>{{post.subtitel}}</h4>
+            <p>{{post.previewText|raw}}</p>
+            <p>{{post.mainText|raw}}</p>
+        </div>
         {% if post.image != null %}
-            <div><img src="/images/{{post.image}}"></div>
+            <div class="postImageFull"><img src="/images/{{post.image}}"></div>
         {% endif %}
     </div>
+    <br>
+    <div class="devider"></div>
+    <h2>Comments:</h2>
+
+    {{ form_start(form) }}
+    <table>
+        <tr>
+            <td>{{form_label(form.username)}}</td>
+            <td>{{form_widget(form.username)}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{form_widget(form.text)}}</td>
+        </tr>
+    </table>
     {{ form(form) }}
+    {{ form_end(form) }}
+
+    <div class="devider"></div>
     {% for comment in comments %}
         <div class="comment">
-            <br></br>
-            {{comment.username}} at {{comment.timestamp|date('Y-m-d H:i:s')}}
+            <b>Door {{comment.username}} op {{comment.timestamp|date('Y-m-d H:i:s')}}</b>
             <p>{{comment.text|raw}}</p>
         </div>
+        <div class="devider"></div>
     {% endfor %}
-    <br></br>
+    <br>
+
+    {% if page > 1 %}
+        <a href="{{path('view_post', {'post': post.id, 'page': (page - 1)})}}">
+<button type="button" class="btn btn-info"><</button></a>
+    {% endif %}
     {% for i in 1..totalPages %}
         {% if i == page %}
             <a><button type="button" class="btn btn-primary">{{i}}</button></a>
         {% else %}
-            <a href="{{path('view_post', {'post': post.id,'page': i})}}">
+            <a href="{{path('view_post', {'post': post.id, 'page': i})}}">
 <button type="button" class="btn btn-info">{{i}}</button></a>
         {% endif%}
     {% endfor %}
+    {% if page < totalPages %}
+        <a href="{{path('view_post', {'post': post.id, 'page': (page + 1)})}}">
+<button type="button" class="btn btn-info">></button></a>
+    {% endif %}
 {% endblock %}
