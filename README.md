@@ -1,6 +1,6 @@
 # Blog-demo
 
-Hierbij mijn demo van de aangevraagde blog zoals beschreven in de toegestuurde documentatie.
+Een simpele demo van een blog, alles is vrij simpel gehouden en gemaakt vanaf de grond op in een korte tijd.
 
 Deze is gemaakt op Ubuntu 18.04 met php 7.2, Symfony 5.3 en mysql 5.7. Dit project zou moeten werken op andere versies maar dat weet ik niet zeker.
 
